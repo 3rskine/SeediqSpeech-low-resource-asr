@@ -1,0 +1,31 @@
+# Encoder 架構 (Transformer)
+encoder: transformer
+encoder_conf:
+    n_layers: 16
+    n_heads: 8
+    d_model: 512
+    d_ff: 2048
+    dropout: 0.1
+    positional_dropout: 0.1
+    input_layer: linear
+
+# 優化器
+optim: adam
+optim_conf:
+    lr: 0.002
+scheduler: warmuplr
+scheduler_conf:
+    warmup_steps: 25000
+
+# 4090 專屬訓練參數
+batch_type: numel
+batch_bins: 30000000   # 這裡改小了，原本是 500000000
+accum_grad: 1
+max_epoch: 15          # LM 不用練太久
+patience: 3
+best_model_criterion:
+-   - valid/acc
+    - max
+keep_nbest_models: 10
+use_amp: true          # 開啟混合精度，省記憶體又加速
+cudnn_benchmark: true

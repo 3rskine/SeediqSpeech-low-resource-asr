@@ -1,0 +1,25 @@
+# --- RTX 4060 (8GB) 輕量化 LM 設定 (修正 V3) ---
+lm: transformer
+lm_conf:
+    pos_enc: null
+    embed_unit: 128
+    att_unit: 256
+    head: 4
+    unit: 1024
+    layer: 6
+    dropout_rate: 0.1
+
+# 訓練參數
+accum_grad: 1
+batch_type: folded
+batch_size: 32
+max_epoch: 20
+patience: 5
+
+# 修正部分：必須拆成三個元素 [split, key, mode]
+best_model_criterion:
+-   - valid
+    - loss
+    - min
+
+keep_nbest_models: 5

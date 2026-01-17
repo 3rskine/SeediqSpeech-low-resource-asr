@@ -1,0 +1,97 @@
+# ==========================================================
+# 賽德克語 ASR 專用設定 (Target: NARLabs Internship MVP)
+# 硬體限制: RTX 4060 (8GB)
+# 架構策略: Pretrained XLS-R (Frozen) + LoRA + Transformer Decoder
+# ==========================================================
+
+# 1. 前端 (Frontend): 使用 S3PRL 呼叫 Meta XLS-R-300M
+frontend: s3prl
+frontend_conf:
+    frontend_conf:
+        upstream: xls_r_300m           # 官方註冊名稱
+    download_dir: ./downloads/s3prl    # 模型快取路徑
+    multilayer_feature: true           # 融合多層特徵
+
+# 2. 凍結機制 (Freeze): 保護 8GB 顯卡
+freeze_param:
+    - "frontend.upstream"
+
+# 3. 預編碼器 (Pre-encoder): 維度轉換 (1024 -> 80)
+preencoder: linear
+preencoder_conf:
+    input_size: 1024
+    output_size: 80
+
+# 4. 主編碼器 (Encoder) + LoRA
+encoder: transformer
+encoder_conf:
+    output_size: 256
+    attention_heads: 4
+    linear_units: 1024
+    num_blocks: 6
+    dropout_rate: 0.1
+    positional_dropout_rate: 0.1
+    attention_dropout_rate: 0.1
+    input_layer: conv2d
+    normalize_before: true
+
+# 5. LoRA 適配器
+use_adapter: true
+adapter: lora
+save_strategy: adapter
+adapter_conf:
+    rank: 8
+    alpha: 16
+    dropout_rate: 0.1
+    target_modules:
+      - q_proj
+      - v_proj
+
+# 6. 解碼器 (Decoder)
+decoder: transformer
+decoder_conf:
+    attention_heads: 4
+    linear_units: 1024
+    num_blocks: 6
+    dropout_rate: 0.1
+    positional_dropout_rate: 0.1
+    self_attention_dropout_rate: 0.1
+    src_attention_dropout_rate: 0.1
+
+# 7. 模型訓練參數
+model_conf:
+    ctc_weight: 0.3
+    lsm_weight: 0.1
+    length_normalized_loss: false
+
+# 8. 優化與硬體適配
+num_workers: 4
+batch_type: sorted
+batch_size: 16
+accum_grad: 4
+max_epoch: 50
+patience: 10
+init: none
+best_model_criterion:
+-   - valid
+    - acc
+    - max
+keep_nbest_models: 5
+
+optim: adam
+optim_conf:
+    lr: 0.001
+scheduler: warmuplr
+scheduler_conf:
+    warmup_steps: 5000
+
+specaug: specaug
+specaug_conf:
+    apply_time_warp: true
+    time_warp_window: 5
+    apply_freq_mask: true
+    freq_mask_width_range: [0, 27]
+    num_freq_mask: 2
+    apply_time_mask: true
+    time_mask_width_ratio_range: [0., 0.05]
+    num_time_mask: 10

@@ -1,0 +1,49 @@
+encoder: conformer
+encoder_conf:
+    output_size: 512
+    attention_heads: 8
+    linear_units: 2048
+    num_blocks: 12
+    dropout_rate: 0.1
+    positional_dropout_rate: 0.1
+    attention_dropout_rate: 0.1
+    input_layer: conv2d
+    normalize_before: true
+
+decoder: transformer
+decoder_conf:
+    attention_heads: 8
+    linear_units: 2048
+    num_blocks: 6
+    dropout_rate: 0.1
+    positional_dropout_rate: 0.1
+    self_attention_dropout_rate: 0.1
+    src_attention_dropout_rate: 0.1
+
+model_conf:
+    ctc_weight: 0.3
+    lsm_weight: 0.1
+    length_normalized_loss: false
+
+optim: adam
+optim_conf:
+    lr: 0.002
+scheduler: warmuplr
+scheduler_conf:
+    warmup_steps: 25000
+
+# 4060 (8GB) 專屬安全參數
+batch_type: numel
+batch_bins: 5000000    # 5M (控制胃口)
+accum_grad: 8          # 累積 8 次 (彌補胃口小)
+max_epoch: 30
+patience: 3
+init: none
+# 修正後的格式 (單行列表)，避免報錯
+best_model_criterion:
+-   - valid
+    - acc
+    - max
+keep_nbest_models: 10
+use_amp: true
+cudnn_benchmark: true

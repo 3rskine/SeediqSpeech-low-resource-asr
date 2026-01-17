@@ -1,0 +1,47 @@
+encoder: conformer
+encoder_conf:
+    output_size: 512
+    attention_heads: 8
+    linear_units: 2048
+    num_blocks: 12
+    dropout_rate: 0.1
+    positional_dropout_rate: 0.1
+    attention_dropout_rate: 0.1
+    input_layer: conv2d
+    normalize_before: true
+
+decoder: transformer
+decoder_conf:
+    attention_heads: 8
+    linear_units: 2048
+    num_blocks: 6
+    dropout_rate: 0.1
+    positional_dropout_rate: 0.1
+    self_attention_dropout_rate: 0.1
+    src_attention_dropout_rate: 0.1
+
+model_conf:
+    ctc_weight: 0.3
+    lsm_weight: 0.1
+    length_normalized_loss: false
+
+optim: adam
+optim_conf:
+    lr: 0.002
+scheduler: warmuplr
+scheduler_conf:
+    warmup_steps: 25000
+
+# 4090 專屬暴力參數 (剛剛漏掉的就是這裡!)
+batch_type: numel
+batch_bins: 40000000
+accum_grad: 1
+max_epoch: 30
+patience: 3
+init: none
+best_model_criterion:
+-   - valid/acc
+    - max
+keep_nbest_models: 10
+use_amp: true
+cudnn_benchmark: true
