@@ -186,13 +186,12 @@ SeediqSpeech-low-resource-asr/
 ---
 
 ## 🙏 致謝
-
-- [ESPnet](https://github.com/espnet/espnet) - 端到端語音處理工具包
-- [Meta AI](https://ai.facebook.com/) - XLS-R 預訓練模型
-- [Hugging Face](https://huggingface.co/) - Transformers 函式庫
-- [Microsoft](https://github.com/microsoft/LoRA) - LoRA 論文與實作
-
----
+- [ESPnet](https://github.com/espnet/espnet) - 端到端語音處理工具包  
+- [Meta AI](https://ai.facebook.com/) - XLS-R 預訓練模型  
+- [Hugging Face](https://huggingface.co/) - Transformers 函式庫  
+- [Microsoft](https://github.com/microsoft/LoRA) - LoRA 論文與實作  
+- **[Mozilla Common Voice 族語錄音補助計畫](https://moztw.org/common-voice/)**  
+  感謝 Mozilla 台灣社群（MozTW）與台灣維基媒體協會協力推動的台灣原住民族語開放語音資料庫計畫，提供 CC0 公眾授權的賽德克語語音資料集。
 
 ## 📄 License
 
