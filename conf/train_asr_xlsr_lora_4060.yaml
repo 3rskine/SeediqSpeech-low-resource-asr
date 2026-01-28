@@ -1,0 +1,88 @@
+# --- 模型架構 ---
+encoder: transformer
+encoder_conf:
+    output_size: 256
+    attention_heads: 4
+    linear_units: 1024
+    num_blocks: 6
+    dropout_rate: 0.1
+    positional_dropout_rate: 0.1
+    attention_dropout_rate: 0.1
+    input_layer: conv2d
+    normalize_before: true
+
+decoder: transformer
+decoder_conf:
+    attention_heads: 4
+    linear_units: 1024
+    num_blocks: 6
+    dropout_rate: 0.1
+    positional_dropout_rate: 0.1
+    self_attention_dropout_rate: 0.1
+    src_attention_dropout_rate: 0.1
+
+model_conf:
+    ctc_weight: 0.3
+    lsm_weight: 0.1
+    length_normalized_loss: false
+
+# --- 前端與預訓練模型 (XLS-R) ---
+frontend: s3prl
+frontend_conf:
+    frontend_conf:
+        upstream: xls_r_300m
+    download_dir: ./downloads/s3prl
+    multilayer_feature: true
+    fs: 16k
+
+# --- LoRA 微調設定 (關鍵！) ---
+use_adapter: true
+adapter: lora
+adapter_conf:
+    rank: 8
+    alpha: 16
+    dropout_rate: 0.1
+    target_modules: ["q_proj", "v_proj"]  # 針對 Transformer 的 Attention 層
+
+# 只訓練 LoRA 參數，凍結 XLS-R
+freeze_param: [
+    "frontend.upstream"
+]
+
+# --- 訓練參數 (針對 8GB VRAM 優化) ---
+# 為了省顯存，我們把 batch_size 壓低，但提高 accum_grad
+# 這樣效果等同於 batch_size = 8 * 8 = 64
+batch_type: sorted
+batch_size: 8      # <--- 安全閥：太高會 OOM
+accum_grad: 8      # <--- 補償：累積 8 次才更新一次權重
+max_epoch: 30      # 訓練 30 輪
+patience: 5        # 如果 5 輪沒進步就提早結束
+init: none
+best_model_criterion:
+-   - valid
+    - acc
+    - max
+keep_nbest_models: 5
+
+# 優化器
+optim: adam
+optim_conf:
+    lr: 0.0005     # LoRA 通常可以用比微調大一點點的 LR
+scheduler: warmuplr
+scheduler_conf:
+    warmup_steps: 1000
+
+specaug: specaug
+specaug_conf:
+    apply_time_warp: true
+    time_warp_window: 5
+    apply_freq_mask: true
+    freq_mask_width_range:
+    - 0
+    - 27
+    num_freq_mask: 2
+    apply_time_mask: true
+    time_mask_width_ratio_range:
+    - 0.
+    - 0.05
+    num_time_mask: 10

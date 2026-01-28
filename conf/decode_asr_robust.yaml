@@ -1,0 +1,6 @@
+# --- 解碼設定 ---
+beam_size: 10        # 搜尋寬度
+ctc_weight: 0.5      # 關鍵！提高 CTC 權重 (0.0 -> 0.5) 來抑制幻覺
+maxlenratio: 0.0     # 自動限制最大長度
+minlenratio: 0.0     # 自動限制最小長度
+penalty: 0.0         # 長度懲罰

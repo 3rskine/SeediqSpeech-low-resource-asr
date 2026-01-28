@@ -1,4 +1,4 @@
-# --- RTX 4060 (8GB) 輕量化 LM 設定 (修正 V3) ---
+# --- RTX 4060 (8GB) 輕量化 LM 設定 (修正 V6: 標準版) ---
 lm: transformer
 lm_conf:
     pos_enc: null
@@ -9,14 +9,14 @@ lm_conf:
     layer: 6
     dropout_rate: 0.1
 
-# 訓練參數
-accum_grad: 1
+# 訓練參數 (資料清洗後恢復正常設定)
+accum_grad: 2        # 恢復: 累積 2 次 (Effective Batch 32)
 batch_type: folded
-batch_size: 32
+batch_size: 16       # 恢復: 正常的 Batch Size，速度較快
 max_epoch: 20
 patience: 5
 
-# 修正部分：必須拆成三個元素 [split, key, mode]
+# 評分標準
 best_model_criterion:
 -   - valid
     - loss

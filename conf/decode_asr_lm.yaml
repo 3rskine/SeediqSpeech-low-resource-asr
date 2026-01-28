@@ -1,0 +1,7 @@
+# --- 解碼設定 ---
+beam_size: 10
+ctc_weight: 0.3      # 標準 CTC 權重
+lm_weight: 0.5       # 給予 LM 足夠的權重來修正錯誤
+penalty: 0.0         # 移除長度懲罰，讓 LM 決定
+maxlenratio: 0.0
+minlenratio: 0.0

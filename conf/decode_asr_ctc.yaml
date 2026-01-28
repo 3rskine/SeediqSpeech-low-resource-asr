@@ -1,0 +1,6 @@
+# --- 解碼設定 ---
+ctc_weight: 1.0      # 100% CTC，完全禁用 Attention Decoder (切斷幻覺源頭)
+beam_size: 5         # 縮小搜尋範圍
+penalty: 0.0
+maxlenratio: 0.0
+minlenratio: 0.0

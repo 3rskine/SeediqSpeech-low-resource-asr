@@ -1,0 +1,7 @@
+# --- 解碼設定 ---
+beam_size: 20        # 增加搜尋寬度，讓它多想一下
+ctc_weight: 0.5      # CTC 權重 0.5 (加上 LM 後可以稍微降低一點 ASR 權重)
+lm_weight: 0.5       # LM 權重 0.5
+penalty: -2.0        # 重點！設定為 -2.0 (強烈懲罰長句子)
+maxlenratio: 0.8     # 強制長度上限為輸入的 0.8 倍
+minlenratio: 0.0

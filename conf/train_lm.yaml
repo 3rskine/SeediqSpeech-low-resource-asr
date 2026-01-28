@@ -1,0 +1,14 @@
+# --- LM 訓練設定 ---
+lm: seq_rnn
+lm_conf:
+    unit: 512
+    nlayers: 2         # 修正點：加上 's'，變成複數
+    dropout_rate: 0.5
+
+# --- 優化器設定 ---
+grad_clip: 5.0
+batch_type: folded
+batch_size: 64
+max_epoch: 50
+patience: 8
+accum_grad: 1
