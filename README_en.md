@@ -3,12 +3,21 @@
 [![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://www.python.org/)
 [![ESPnet](https://img.shields.io/badge/ESPnet-202401-green.svg)](https://github.com/espnet/espnet)
 [![License](https://img.shields.io/badge/License-Apache%202.0-orange.svg)](LICENSE)
+[![Hugging Face Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-blue)](https://huggingface.co/spaces/3rskine/seediq-asr)
 
 [**中文說明**](README.md) | [**English**](README_en.md)
 
 **Low-Resource Automatic Speech Recognition System for Seediq Language**
 
 This project is based on the [ESPnet](https://github.com/espnet/espnet) framework, utilizing the self-supervised pre-trained model (XLS-R) combined with **LoRA (Low-Rank Adaptation)** for efficient fine-tuning. By integrating an **RNN Language Model (RNNLM)**, we successfully achieved high-availability end-to-end speech recognition for Seediq, an indigenous language of Taiwan, under ultra-low resource conditions.
+
+---
+
+## 🎮 Online Demo
+
+The model is deployed on Hugging Face Spaces. You can test it directly in your browser:
+
+[**👉 Try SeediqSpeech ASR Demo**](https://huggingface.co/spaces/3rskine/seediq-asr)
 
 ---
 

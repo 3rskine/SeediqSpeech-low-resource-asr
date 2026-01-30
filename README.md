@@ -3,12 +3,21 @@
 [![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://www.python.org/)
 [![ESPnet](https://img.shields.io/badge/ESPnet-202401-green.svg)](https://github.com/espnet/espnet)
 [![License](https://img.shields.io/badge/License-Apache%202.0-orange.svg)](LICENSE)
+[![Hugging Face Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-blue)](https://huggingface.co/spaces/3rskine/seediq-asr)
 
 [**中文說明**](README.md) | [**English**](README_en.md)
 
 **賽德克語 (Seediq) 低資源語音辨識系統**
 
 本專案基於 [ESPnet](https://github.com/espnet/espnet) 框架，採用自監督學習預訓練模型 (XLS-R) 結合 **LoRA (Low-Rank Adaptation)** 高效微調技術，並整合 **RNN 語言模型 (RNNLM)**，成功在極低資源下實現台灣原住民語言——賽德克語的高可用性端到端語音辨識。
+
+---
+
+## 🎮 線上體驗 (Online Demo)
+
+本模型已部署至 Hugging Face Spaces，您可以直接在瀏覽器中錄音或上傳檔案進行測試：
+
+[**👉 點擊前往 SeediqSpeech ASR Demo**](https://huggingface.co/spaces/3rskine/seediq-asr)
 
 ---
 
